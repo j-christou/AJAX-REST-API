@@ -1,0 +1,27 @@
+body {
+    background-image: url("https://wallpaperaccess.com/full/934072.jpg");    
+    background-size: cover;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+}
+h1 {
+    font-family: fantasy;
+    color: white;
+}
+.button {
+    background-color: rgb(235, 191, 98);
+    font-family: monospace;
+    font-weight: bold;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 8px 25px;
+    text-decoration: none;
+    cursor: grabbing;
+    border-radius: 20px;
+    transition: 0.4s ease-out;
+} 
+
+.button:hover {
+    background: rgb(153, 115, 34);
+    border-radius: 0px;
+}

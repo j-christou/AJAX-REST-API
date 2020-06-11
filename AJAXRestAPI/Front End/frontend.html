@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Remote book database</title>
+    </head>
+
+    <body>
+        
+        <b><h1>Register a new book</h1></b>
+
+        <p>Author: <input type="text" id="author" required></p>
+
+        <p>Title : <input type="text" id="title" required></p>
+
+        <p>Genre : <select id="genre" >
+            <option value="Science fiction">Science fiction</option>
+            <option value="Satire">Satire</option>
+            <option value="Drama">Drama</option>
+            <option value="Action and Adventure">Action and Adventure</option>
+            <option value="Romance">Romance</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Horror">Horror</option>
+        </select></p>
+
+        <p>Price : <input type="number" id="price" step="0.01" required></p>
+            
+        <p><input type="button" value="Insert" id="submitButton" class="button"></p>
+
+        <script type="text/javascript">
+            document.getElementById('submitButton').addEventListener('click', function(event) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:3000/books/', true);
+                xhr.setRequestHeader('Content-Type','application/json');
+                const books = {
+                    author: document.getElementById('author').value,
+                    title: document.getElementById('title').value,
+                    genre: document.getElementById('genre').value,
+                    price: document.getElementById('price').value
+                };
+                xhr.send(JSON.stringify(books));
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        alert(xhr.responseText);
+                        document.getElementById('author').value = "";
+                        document.getElementById('title').value = "";
+                        document.getElementById('genre').value = "";
+                        document.getElementById('price').value = "";
+                    } 
+                }
+            });
+        </script>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <b><h1>Search a book by keyword</h1></b>
+        <p><input type="text" name="search" id="keyword"></p>
+
+        <p><input type="button" value="Search" id="searchButton" class="button"></p>
+        <input type="button" value="Clear" onclick="window.location.reload();" class="button">
+                
+        <div id="result"></div>
+
+        <script type="text/javascript">
+            document.getElementById('searchButton').addEventListener('click', function(event) {
+                var keyword = document.getElementById('keyword').value;
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'http://localhost:3000/books/'+keyword+'', true);
+                xhr.setRequestHeader('Content-Type','application/json');
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        const result = JSON.parse(xhr.responseText);
+                        const pElem = document.createElement('p');
+                        const text = document.createTextNode(JSON.stringify(result));
+                        pElem.appendChild(text);
+                        const divElem = document.getElementById('result');
+                        divElem.appendChild(pElem);
+                        document.getElementById('keyword').value = "";
+                    }
+                }
+            });
+            
+        </script>
+        
+    </body>
+</html>
